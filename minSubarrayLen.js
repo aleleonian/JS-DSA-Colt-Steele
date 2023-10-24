@@ -1,4 +1,47 @@
-function minSubArrayLen(array, sum) {
+function minSubArrayLen(nums, sum) {
+    let total = 0;
+    let start = 0;
+    let end = 0;
+    let minLen = Infinity;
+
+    while (start < nums.length) {
+        // if current window doesn't add up to the given sum then 
+        // move the window to right
+        // start está quieto, el que se va ampliando es end
+        // y el loop va a seguir trabajando hasta que start no llegue al otro 
+        // extremo
+        // Esto es algo que aprendí hoy y me cayó la ficha.
+        // As long as start sea menor de nums.length, siga siga.
+        // el nested loop de la versión naive, se elimina con dos punteros.
+        // uno quieto y el otro se va moviendo
+        // de esa manera se emula el nested loop
+        // el quieto se va moviendo pero por cada movimiento del quieto, el 
+        // otro se movió mucho más
+        // cada iteración de este while, no significa que START avanza
+        // Una iteración no necesariamente me acerca al final del loop as long
+        // as start se esté quietecito
+        
+        if (total < sum && end < nums.length) {
+            total += nums[end];
+            end++;
+        }
+        // if current window adds up to at least the sum given then
+        // we can shrink the window 
+        else if (total >= sum) {
+            minLen = Math.min(minLen, end - start);
+            total -= nums[start];
+            start++;
+        }
+        // current total less than required total but we reach the end, need this or else we'll be in an infinite loop 
+        else {
+            break;
+        }
+    }
+
+    return minLen === Infinity ? 0 : minLen;
+}
+
+function minSubArrayLenNaive(array, sum) {
 
     let minWindowSize = Infinity;
 
@@ -34,7 +77,7 @@ function minSubArrayLen(array, sum) {
 // console.log(minSubArrayLen([3, 1, 7, 11, 2, 9, 8, 21, 62, 33, 19], 52)) // 1 -> because [62] is greater than 52
 // console.log(minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 39)) // 3
 // console.log(minSubArrayLen([1,4,16,22,5,7,8,9,10],55)) // 5
-// console.log(minSubArrayLen([4, 3, 3, 8, 1, 2, 3], 11)) // 2
+console.log(minSubArrayLen([4, 3, 3, 8, 1, 2, 3], 11)) // 2
 // console.log(minSubArrayLen([1,4,16,22,5,7,8,9,10],95)) // 0
 
 
