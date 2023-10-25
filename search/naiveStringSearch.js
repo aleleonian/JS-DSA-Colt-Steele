@@ -6,8 +6,9 @@ function naiveStringSearch(string, target) {
             for (let x = 1; x < target.length; x++) {
                 const currentTargetChar = target[x];
                 if (currentTargetChar == string[i + x]) {
-                    if (x == target.length - 2) occurrences++;
+                    if (x == target.length - 1) occurrences++;
                 }
+                else break;
             }
         }
     }
@@ -15,4 +16,4 @@ function naiveStringSearch(string, target) {
 }
 
 
-console.log(naiveStringSearch("alealejandro", "ale"));
+console.log(naiveStringSearch("alealejandroal3", "ale"));
