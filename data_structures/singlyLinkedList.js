@@ -64,7 +64,45 @@ class SinglyLinkedList {
         this.length--;
         return shiftedItem;
     }
+    insert(index, value) {
+        //should we consider insertions at index 0?
+        let newInsertion = new Node(value);
 
+        if (index < 0 || index > this.length) return false;
+        if (index > 0 && index < this.length) {
+            let previousNode = this.get(index - 1);
+            if (previousNode) {
+                //save the previous node's next
+                let previousNext = previousNode.next;
+                //modify the previous nodes next to be newInsertion
+                previousNode.next = newInsertion;
+                newInsertion.next = previousNext;
+                //modify newInsertion's next to be the previous's next
+                this.length++;
+                return true;
+            }
+            else return false;
+        }
+        else if (index == 0) this.unshift(value);
+        else this.push(value);
+    }
+    remove(index) {
+        if (index < 0 || index > this.length) return undefined;
+        if (index > 0 && index < this.length) {
+            let previousNode = this.get(index - 1);
+            if (previousNode) {
+                let nodeToBeRemoved = previousNode.next;
+                if (nodeToBeRemoved) {
+                    previousNode.next = nodeToBeRemoved.next;
+                    this.length--;
+                    return nodeToBeRemoved;
+                }
+            }
+        }
+        else if (index == 0) return this.shift();
+        else return this.pop();
+        return true;
+    }
     unshift(value) {
         const newNode = new Node(value);
         if (!this.head) {
@@ -78,15 +116,26 @@ class SinglyLinkedList {
         this.length++;
         return this;
     }
-    get(number) {
-        if (number < 0 || this.length < number) return null;
+    get(index) {
+        if (index < 0 || this.length <= index) return null;
         let currentNode = this.head;
-        let counter = 1;
-        while (currentNode && counter < number) {
+        let counter = 0;
+        while (currentNode && counter !== index) {
             currentNode = currentNode.next;
             counter++;
         }
         return currentNode;
+    }
+    set(index, value) {
+        if (index < 0 || this.length <= index) return false;
+        let currentNode = this.get(index);
+        if (currentNode) {
+            currentNode.data = value;
+            return true;
+        }
+        return false;
+
+
     }
     traverse() {
         let currentNode = this.head;
@@ -94,6 +143,19 @@ class SinglyLinkedList {
             console.log(currentNode.data);
             currentNode = currentNode.next;
         }
+    }
+    reverse() {
+        let counter = this.length - 1;
+        while (counter >= 1) {
+            let rightNode = this.get(counter);
+            let leftNode = this.get(counter - 1);
+            rightNode.next = leftNode;
+            if (counter == 1) leftNode.next = null;
+            counter--;
+        }
+        let temp = this.head;
+        this.head = this.tail;
+        this.tail = temp;
     }
 }
 
@@ -105,18 +167,32 @@ list.push("3");
 
 list.traverse();
 
-console.log(list.get(2));
+console.log(list.set(0, "1.0"));
 
-// console.log("pop->" + JSON.stringify(list.pop()));
+list.traverse();
 
-// list.traverse();
+console.log(list.insert(3, 4));
 
-// console.log("shift->" + JSON.stringify(list.shift()));
+list.traverse();
 
-// list.traverse();
+console.log(list.remove(1));
 
-// console.log("unshift(1)");
+list.traverse();
 
-// list.unshift(1);
+list.reverse();
 
-// list.traverse();
+list.traverse();
+
+console.log("pop->" + JSON.stringify(list.pop()));
+
+list.traverse();
+
+console.log("shift->" + JSON.stringify(list.shift()));
+
+list.traverse();
+
+console.log("unshift(1)");
+
+list.unshift(1);
+
+list.traverse();
