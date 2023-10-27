@@ -144,6 +144,29 @@ class SinglyLinkedList {
             currentNode = currentNode.next;
         }
     }
+    reverse2() {
+        let node = this.head;
+        let prev = null;
+        let next;
+
+        while (node) {
+            // i save the next address so i can actually go there
+            // on my next iteration
+            next = node.next; 
+            // i "patch" the next so it points "backwards"
+            // on the first iteration it will be null, and that is fine
+            // since the tail has no "next"
+            node.next = prev;
+            // i save the current node to prev so i can back-link it
+            // on the next iteration
+            prev = node;
+            // let's take the next item in the list
+            node = next;
+        }
+        let temp = this.head;
+        this.head = this.tail;
+        this.tail = temp;
+    }
     reverse() {
         let counter = this.length - 1;
         while (counter >= 1) {
@@ -167,32 +190,36 @@ list.push("3");
 
 list.traverse();
 
-console.log(list.set(0, "1.0"));
+list.reverse2();
 
 list.traverse();
 
-console.log(list.insert(3, 4));
+// console.log(list.set(0, "1.0"));
 
-list.traverse();
+// list.traverse();
 
-console.log(list.remove(1));
+// console.log(list.insert(3, 4));
 
-list.traverse();
+// list.traverse();
 
-list.reverse();
+// console.log(list.remove(1));
 
-list.traverse();
+// list.traverse();
 
-console.log("pop->" + JSON.stringify(list.pop()));
+// list.reverse();
 
-list.traverse();
+// list.traverse();
 
-console.log("shift->" + JSON.stringify(list.shift()));
+// console.log("pop->" + JSON.stringify(list.pop()));
 
-list.traverse();
+// list.traverse();
 
-console.log("unshift(1)");
+// console.log("shift->" + JSON.stringify(list.shift()));
 
-list.unshift(1);
+// list.traverse();
 
-list.traverse();
+// console.log("unshift(1)");
+
+// list.unshift(1);
+
+// list.traverse();
