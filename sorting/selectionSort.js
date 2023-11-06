@@ -1,6 +1,5 @@
 
 function selectionSort(array) {
-
     let leftEndPtr = 0;
     let scannerPtr = 1;
     let smallestElementIndex = leftEndPtr;
@@ -23,7 +22,6 @@ function selectionSort(array) {
             //if this is not the end, let's move the scannerPtr closer to the end
             scannerPtr++;
         }
-
     }
     return array;
 }
