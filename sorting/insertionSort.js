@@ -11,7 +11,7 @@ function insertionSort(arr) {
     return arr;
 }
 
-console.log(insertionSortMine([9, 1, 3, 76, 4]));
+console.log(insertionSortMine([1,20,3,4,0]));
 
 
 function insertionSortMine(array) {
