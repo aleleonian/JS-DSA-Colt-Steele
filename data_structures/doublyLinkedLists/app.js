@@ -14,7 +14,7 @@ class DoublyLinkedList {
     }
     push(val) {
 
-        const newNode = new Node(val);
+        let newNode = new Node(val);
 
         if (this.length == 0) {
             this.head = newNode;
@@ -26,7 +26,7 @@ class DoublyLinkedList {
             // set the tail to be the new node
             // increment this.length;
             // return the entire list
-            const oldTail = this.tail;
+            let oldTail = this.tail;
             oldTail.next = newNode;
             newNode.prev = oldTail;
             this.tail = newNode;
@@ -122,6 +122,51 @@ class DoublyLinkedList {
         if (!desiredNode) return false;
         desiredNode.val = val;
         return true;
+    }
+    insert(index, val) {
+
+        if (index < 0 || index > this.length) return false;
+
+        if (index == 0) {
+            //we gotta use unshift (duh!)
+            return !!this.unshift(val);
+        }
+        else if (index == this.length) {
+            // just push
+            // we got to return because push already increments this.length
+            return !!this.push(val);
+        }
+        else {
+            let previousNode, currentNode, newNode;
+
+            newNode = new Node(val);
+            previousNode = this.get(index - 1);
+            currentNode = previousNode.next;
+            currentNode.prev = newNode;
+            newNode.next = currentNode;
+            previousNode.next = newNode;
+            newNode.prev = previousNode;
+            this.length++;
+        }
+        return true;
+    }
+    remove(index){
+        if(index == 0) return this.shift();
+        if(index == this.length - 1) return this.pop();
+
+        let currentNode = this.get(index);
+        if(!currentNode) return false;
+
+        let previousNode = currentNode.prev;
+        let nextNode = currentNode.next;
+        previousNode.next = nextNode;
+        nextNode.prev = previousNode;
+        //we also gotta cut ties with the other nodes.
+        currentNode.next = null;
+        currentNode.prev = null;
+
+        this.length--;
+        return currentNode;
     }
 }
 
