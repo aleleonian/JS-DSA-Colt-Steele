@@ -89,6 +89,40 @@ class DoublyLinkedList {
         this.length++;
         return this;
     }
+    get(index) {
+        let node;
+        let direction;
+        let counter;
+
+        // we gotta check for >= this.length because it's a 0 based index
+        // if there are 10 elements the index 10 is out of bounds
+        if (index < 0 || index >= this.length) return null;
+
+        else if (index <= (this.length / 2)) {
+            counter = 0;
+            node = this.head;
+            direction = 'next';
+        }
+        else {
+            counter = this.length - 1;
+            node = this.tail;
+            direction = 'prev';
+        }
+        while (node) {
+            if (counter == index) {
+                break;
+            }
+            direction === "next" ? counter++ : counter--;
+            node = node[direction];
+        }
+        return node;
+    }
+    set(index, val) {
+        const desiredNode = this.get(index);
+        if (!desiredNode) return false;
+        desiredNode.val = val;
+        return true;
+    }
 }
 
 const myDBL = new DoublyLinkedList();
@@ -101,9 +135,18 @@ console.log(myDBL.push("2"));
 
 console.log("push(\"3\")");
 console.log(myDBL.push("3"));
+console.log(myDBL.push("4"));
+console.log(myDBL.push("5"));
+console.log(myDBL.push("6"));
+console.log(myDBL.push("7"));
+console.log(myDBL.push("8"));
+console.log(myDBL.push("9"));
+console.log(myDBL.push("10"));
 
-console.log("pop()");
-console.log(myDBL.pop());
+// console.log("pop()");
+// console.log(myDBL.pop());
 
-console.log("shift()");
-console.log(myDBL.shift());
+// console.log("shift()");
+// console.log(myDBL.shift());
+
+console.log(myDBL.get(8));
