@@ -150,12 +150,12 @@ class DoublyLinkedList {
         }
         return true;
     }
-    remove(index){
-        if(index == 0) return this.shift();
-        if(index == this.length - 1) return this.pop();
+    remove(index) {
+        if (index == 0) return this.shift();
+        if (index == this.length - 1) return this.pop();
 
         let currentNode = this.get(index);
-        if(!currentNode) return false;
+        if (!currentNode) return false;
 
         let previousNode = currentNode.prev;
         let nextNode = currentNode.next;
@@ -167,6 +167,24 @@ class DoublyLinkedList {
 
         this.length--;
         return currentNode;
+    }
+    reverse() {
+        let counter = this.length - 1;
+        while (counter >= 0) {
+            let currentNode = this.get(counter);
+            const oldNext = currentNode.next;
+            const oldPrev = currentNode.prev;
+
+            currentNode.next = oldPrev;
+            currentNode.prev = oldNext;
+
+            counter--;
+        }
+        let temp = this.head;
+        this.head = this.tail;
+        this.tail = temp;
+
+        return this;
     }
 }
 
@@ -180,18 +198,11 @@ console.log(myDBL.push("2"));
 
 console.log("push(\"3\")");
 console.log(myDBL.push("3"));
-console.log(myDBL.push("4"));
-console.log(myDBL.push("5"));
-console.log(myDBL.push("6"));
-console.log(myDBL.push("7"));
-console.log(myDBL.push("8"));
-console.log(myDBL.push("9"));
-console.log(myDBL.push("10"));
+
+console.log(myDBL.reverse());
 
 // console.log("pop()");
 // console.log(myDBL.pop());
 
 // console.log("shift()");
 // console.log(myDBL.shift());
-
-console.log(myDBL.get(8));
