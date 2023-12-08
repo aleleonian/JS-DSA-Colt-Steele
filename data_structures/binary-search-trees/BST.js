@@ -31,12 +31,43 @@ class BinarySearchTree {
                         lastBranch = "left";
                         break;
                     }
-                    nextNode = nextNode.left;
                 }
                 else return undefined;
             }
             nextNode[lastBranch] = newNode;
             return this;
+        }
+    }
+    find(value) {
+        if (!this.root) {
+            return false;
+        }
+        else {
+            let currentNode = this.root;
+
+            while (true) {
+                if (currentNode.value === value) break;
+
+                if (value > currentNode.value) {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                    }
+                    else {
+                        currentNode = false;
+                        break;
+                    }
+                }
+                else if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                    }
+                    else {
+                        currentNode = false;
+                        break;
+                    }
+                }
+            }
+            return currentNode;
         }
     }
     asciiTree(currentNode = this.root) {
@@ -53,15 +84,6 @@ class BinarySearchTree {
             else this.tree += "\t\t    \\";
 
             this.asciiTree(currentNode.right);
-        }
-    }
-    printBST(node, prefix = '', isLeft = null) {
-        if (node !== null) {
-            console.log(prefix + (isLeft === null ? '' : isLeft ? ' /' : ' \\') + ' ' + node.value);
-            if (node.left !== null || node.right !== null) {
-                this.printBST(node.left, prefix + (isLeft === null ? '' : isLeft ? '   ' : ' |'), true);
-                this.printBST(node.right, prefix + (isLeft === null ? '' : isLeft ? ' |' : '   '), false);
-            }
         }
     }
     buildTree = (root, curr_index = 0, index = false, delimiter = '-') => {
@@ -130,9 +152,12 @@ let myBST = new BinarySearchTree();
 
 myBST.add(5);
 myBST.add(2);
+myBST.add(1);
 myBST.add(20);
 myBST.add(7);
 myBST.add(120);
 myBST.add(33);
-myBST.print();
+console.log(myBST.find(120));
+console.log(myBST.find(500));
+// myBST.print();
 // console.log(myBST.tree);
