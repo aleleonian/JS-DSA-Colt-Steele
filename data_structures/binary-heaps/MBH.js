@@ -11,50 +11,48 @@ class MaxBinaryHeap {
         result.value = this.values[bubbledUpParentIndex];
         return result;
     }
-    findParent(index, childValue) {
-        let bubbledUpResult = this.bubbleUp(index);
-        while (bubbledUpResult) {
-            if (childValue > bubbledUpResult.value) {
-                return bubbledUpResult;
-            }
-            bubbledUpResult.index--;
-            if (bubbledUpResult.index < 0) break;
 
-            bubbledUpResult = this.bubbleUp(bubbledUpResult.index);
-        }
-        return index;
-    }
     insert(value) {
         // push at the end of the array and bubble up
         // we swap it upwards until it finds its correct place
         // find the corresponding parent
         // is the newly inserted node value larger than the parent?
         // i keep doing comparisons until i find the place
-        if (value) {
-            this.values.push(value);
-            const newValuePosition = this.values.length - 1;
-            if (newValuePosition !== 0) {
-                const newValueParent = this.findParent(newValuePosition, value);
-                if (newValueParent && newValuePosition !== newValueParent) {
-                    //swap this.values[newValuePosition] for this.values[newValueParent.index]
-                    this.swap(this.values, newValuePosition, newValueParent.index);
-                    return newValueParent.index;
-                }
-                else if(newValueParent == newValuePosition) return true;
+        if (!value) return false;
 
-                return false;
+        this.values.push(value);
+
+        let newValuePosition = this.values.length - 1;
+
+        if (newValuePosition !== 0) {
+            while (true) {
+                const newParent = this.bubbleUp(newValuePosition, value);
+                if (newParent.value && value > newParent.value) {
+                    this.swap(this.values, newValuePosition, newParent.index);
+                    newValuePosition = newParent.index;
+                }
+                else return true;
             }
-            return newValuePosition
         }
+        else return newValuePosition
+
     }
     swap(array, index1, index2) {
         let temp = array[index1];
         array[index1] = array[index2];
         array[index2] = temp;
     }
+    print() {
+        console.log(this.values);
+    }
 }
 const mbh = new MaxBinaryHeap();
-
-console.log(mbh.insert(3));
-console.log(mbh.insert(2));
-console.log(mbh.insert(4));
+// [41,39,33,18,27,12,55]
+mbh.insert(41);
+mbh.insert(39);
+mbh.insert(33);
+mbh.insert(18);
+mbh.insert(27);
+mbh.insert(12);
+mbh.insert(11);
+mbh.print();
