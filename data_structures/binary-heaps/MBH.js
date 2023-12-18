@@ -20,6 +20,8 @@ class MaxBinaryHeap {
         // take the largest children and compare
         // if child is larger, swap. Repeat.
         // if not, that is the correct place.
+        if (this.values.length === 0) return false;
+
         this.swap(this.values, 0, this.values.length - 1);
         const poppedItem = this.values.pop();
         let index = 0;
