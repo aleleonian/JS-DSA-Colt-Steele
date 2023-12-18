@@ -39,7 +39,7 @@ class MaxBinaryHeap {
                 highestChilIndex = rightIndex;
             }
 
-            const newRootValue = this.values[0];
+            const newRootValue = this.values[index];
 
             let newIndexLocation;
 
@@ -101,14 +101,16 @@ class MaxBinaryHeap {
 }
 let myMaxBH = new MaxBinaryHeap();
 // [41,39,33,18,27,12,55]
-myMaxBH.insert(1);
-myMaxBH.insert(2);
-myMaxBH.insert(3);
-myMaxBH.insert(4);
-myMaxBH.insert(0);
-myMaxBH.insert(20);
-myMaxBH.insert(7);
+myMaxBH.insert(41);
+myMaxBH.insert(39);
+myMaxBH.insert(33);
+myMaxBH.insert(18);
+myMaxBH.insert(27);
+myMaxBH.insert(12);
+myMaxBH.insert(55);
 
+myMaxBH.print();
+myMaxBH.remove();
 myMaxBH.print();
 myMaxBH.remove();
 myMaxBH.print();
