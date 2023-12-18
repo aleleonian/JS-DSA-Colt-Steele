@@ -12,13 +12,66 @@ class MaxBinaryHeap {
         return result;
     }
 
+    remove() {
+        // swap the root with the last element
+        // pop last element (ex root)
+        // adjust:
+        // start at the new root
+        // take the largest children and compare
+        // if child is larger, swap. Repeat.
+        // if not, that is the correct place.
+        this.swap(this.values, 0, this.values.length - 1);
+        const poppedItem = this.values.pop();
+        let index = 0;
+        while (true) {
+            const leftIndex = this.getLeftIndex(index);
+            const rightIndex = this.getRightIndex(index);
+            if (!leftIndex && !rightIndex) break;
+
+            let highestChildValue, highestChilIndex;
+
+            if (this.values[leftIndex] > this.values[rightIndex] || !this.values[rightIndex]) {
+                highestChildValue = this.values[leftIndex];
+                highestChilIndex = leftIndex;
+            }
+            else if (this.values[rightIndex] > this.values[leftIndex] || !this.values[leftIndex]) {
+                highestChildValue = this.values[rightIndex];
+                highestChilIndex = rightIndex;
+            }
+
+            const newRootValue = this.values[0];
+
+            let newIndexLocation;
+
+            if (highestChildValue > newRootValue) {
+                newIndexLocation = highestChilIndex;
+                this.swap(this.values, index, newIndexLocation);
+                index = newIndexLocation;
+            }
+            else break;
+        }
+        return poppedItem;
+
+    }
+    getLeftIndex(index) {
+        const newIndex = (index * 2) + 1;
+        if (!this.values[newIndex]) return false;
+        else return newIndex;
+    }
+
+    getRightIndex(index) {
+        const newIndex = (index * 2) + 2;
+        if (!this.values[newIndex]) return false;
+        else return newIndex;
+    }
+
     insert(value) {
         // push at the end of the array and bubble up
         // we swap it upwards until it finds its correct place
         // find the corresponding parent
         // is the newly inserted node value larger than the parent?
         // i keep doing comparisons until i find the place
-        if (!value) return false;
+        if (value === undefined) return false;
 
         this.values.push(value);
 
@@ -31,10 +84,10 @@ class MaxBinaryHeap {
                     this.swap(this.values, newValuePosition, newParent.index);
                     newValuePosition = newParent.index;
                 }
-                else return true;
+                else break;
             }
         }
-        else return newValuePosition
+        return true;
 
     }
     swap(array, index1, index2) {
@@ -46,13 +99,16 @@ class MaxBinaryHeap {
         console.log(this.values);
     }
 }
-const mbh = new MaxBinaryHeap();
+let myMaxBH = new MaxBinaryHeap();
 // [41,39,33,18,27,12,55]
-mbh.insert(41);
-mbh.insert(39);
-mbh.insert(33);
-mbh.insert(18);
-mbh.insert(27);
-mbh.insert(12);
-mbh.insert(11);
-mbh.print();
+myMaxBH.insert(1);
+myMaxBH.insert(2);
+myMaxBH.insert(3);
+myMaxBH.insert(4);
+myMaxBH.insert(0);
+myMaxBH.insert(20);
+myMaxBH.insert(7);
+
+myMaxBH.print();
+myMaxBH.remove();
+myMaxBH.print();
