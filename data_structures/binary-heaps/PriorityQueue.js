@@ -1,3 +1,4 @@
+// TODO: these MaxBinaryHeap and MinBinaryHeap examples are broken.
 
 class Node {
     constructor(value, priority) {
@@ -31,30 +32,29 @@ class PriorityQueue {
         this.swap(this.nodes, 0, this.nodes.length - 1);
         const poppedItem = this.nodes.pop();
         let index = 0;
-        while (true) {
-            const leftIndex = this.getLeftIndex(index);
-            const rightIndex = this.getRightIndex(index);
-            if (!leftIndex && !rightIndex) break;
+        const leftIndex = this.getLeftIndex(index);
+        const rightIndex = this.getRightIndex(index);
+        while (leftIndex !== null || rightIndex !== null) {
 
-            let highestChildPriority, highestChilIndex;
+            let highestChildPriority, highestChildIndex;
 
             if (this.nodes[leftIndex] && this.nodes[rightIndex]) {
                 if (this.nodes[leftIndex].priority < this.nodes[rightIndex].priority || !this.nodes[rightIndex]) {
                     highestChildPriority = this.nodes[leftIndex].priority
-                    highestChilIndex = leftIndex;
+                    highestChildIndex = leftIndex;
                 }
-                else if (this.nodes[rightIndex] < this.nodes[leftIndex] || !this.nodes[leftIndex]) {
+                else if (this.nodes[rightIndex].priority < this.nodes[leftIndex].priority || !this.nodes[leftIndex]) {
                     highestChildPriority = this.nodes[rightIndex].priority;
-                    highestChilIndex = rightIndex;
+                    highestChildIndex = rightIndex;
                 }
             } else {
-                if(!this.nodes[leftIndex]){
+                if (!this.nodes[leftIndex]) {
                     highestChildPriority = this.nodes[rightIndex].priority
-                    highestChilIndex = rightIndex;
+                    highestChildIndex = rightIndex;
                 }
                 else {
                     highestChildPriority = this.nodes[leftIndex].priority
-                    highestChilIndex = leftIndex;
+                    highestChildIndex = leftIndex;
                 }
             }
             const newRootPriority = this.nodes[index].priority;
@@ -62,7 +62,7 @@ class PriorityQueue {
             let newIndexLocation;
 
             if (highestChildPriority > newRootPriority) {
-                newIndexLocation = highestChilIndex;
+                newIndexLocation = highestChildIndex;
                 this.swap(this.nodes, index, newIndexLocation);
                 index = newIndexLocation;
             }
@@ -99,7 +99,7 @@ class PriorityQueue {
 
         if (newNodePosition !== 0) {
             while (true) {
-                const bubbledUpNode = this.bubbleUp(newNodePosition, value);
+                const bubbledUpNode = this.bubbleUp(newNodePosition);
                 if (bubbledUpNode.node && newNode.priority < bubbledUpNode.node.priority) {
                     this.swap(this.nodes, newNodePosition, bubbledUpNode.index);
                     newNodePosition = bubbledUpNode.index;
@@ -121,9 +121,11 @@ class PriorityQueue {
 }
 let myMinBH = new PriorityQueue();
 // [41,39,33,18,27,12,55]
-myMinBH.enqueue("head ache", 5);
-myMinBH.enqueue("heart attack", 1);
-myMinBH.enqueue("flu", 3);
+myMinBH.enqueue("common cold", 5);
+myMinBH.enqueue("gunshot wound", 1);
+myMinBH.enqueue("high fever", 4);
+myMinBH.enqueue("broken arm", 2);
+myMinBH.enqueue("glass in foot", 3);
 
 myMinBH.print();
 myMinBH.dequeue();
